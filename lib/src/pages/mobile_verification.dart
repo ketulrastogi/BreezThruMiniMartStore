@@ -88,6 +88,7 @@ class _MobileVerificationState extends State<MobileVerification> {
             ),
             SizedBox(height: 30),
             TextField(
+              controller: phoneController,
               textAlign: TextAlign.center,
               decoration: new InputDecoration(
                 enabledBorder: UnderlineInputBorder(
@@ -144,7 +145,7 @@ class _MobileVerificationState extends State<MobileVerification> {
                 };
 
                 await FirebaseAuth.instance.verifyPhoneNumber(
-                    phoneNumber: phoneNumber,
+                    phoneNumber: '+91${phoneController.text}',
                     codeAutoRetrievalTimeout: autoRetrieve,
                     codeSent: smsCodeSent,
                     timeout: const Duration(seconds: 5),
@@ -169,7 +170,7 @@ class _MobileVerificationState extends State<MobileVerification> {
         msg: message,
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
+        timeInSecForIosWeb: 3,
         backgroundColor: Colors.black87,
         textColor: Colors.white,
         fontSize: 16.0);
