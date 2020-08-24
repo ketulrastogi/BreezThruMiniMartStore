@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:markets/generated/l10n.dart';
-import 'package:markets/src/models/gallery.dart';
-import 'package:markets/src/repository/gallery_repository.dart';
+import '../../generated/l10n.dart';
+import '../models/gallery.dart';
+import '../repository/gallery_repository.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 
 import '../helpers/helper.dart';

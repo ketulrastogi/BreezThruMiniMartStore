@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:markets/src/pages/mobile_verification.dart';
-import 'package:markets/src/pages/mobile_verification_2.dart';
+import 'src/pages/mobile_verification.dart';
+import 'src/pages/mobile_verification_2.dart';
 
 import 'src/models/route_argument.dart';
 import 'src/pages/cart.dart';

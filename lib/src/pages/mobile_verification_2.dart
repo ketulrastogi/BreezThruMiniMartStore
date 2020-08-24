@@ -1,10 +1,28 @@
 import 'package:flutter/material.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
 import '../../generated/l10n.dart';
 import '../elements/BlockButtonWidget.dart';
 import '../helpers/app_config.dart' as config;
 
-class MobileVerification2 extends StatelessWidget {
+class MobileVerification2 extends StatefulWidget {
+  final String verificationCode;
+
+  MobileVerification2({Key key, this.verificationCode}) : super(key: key);
+
+  @override
+  _MobileVerification2State createState() => _MobileVerification2State();
+}
+
+class _MobileVerification2State extends State<MobileVerification2> {
+  TextEditingController otpController;
+  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+
+  @override
+  void initState() {
+    otpController = TextEditingController();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final _ac = config.App(context);
@@ -39,7 +57,8 @@ class MobileVerification2 extends StatelessWidget {
               textAlign: TextAlign.center,
               decoration: new InputDecoration(
                 enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Theme.of(context).focusColor.withOpacity(0.2)),
+                  borderSide: BorderSide(
+                      color: Theme.of(context).focusColor.withOpacity(0.2)),
                 ),
                 focusedBorder: new UnderlineInputBorder(
                   borderSide: new BorderSide(
@@ -58,11 +77,40 @@ class MobileVerification2 extends StatelessWidget {
             SizedBox(height: 80),
             new BlockButtonWidget(
               onPressed: () {
-                Navigator.of(context).pushReplacementNamed('/Pages', arguments: 2);
+                var _authCredential = PhoneAuthProvider.credential(
+                    verificationId: widget.verificationCode,
+                    smsCode: otpController.text);
+                showDialog(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (context) {
+                      return Container(
+                        child: Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      );
+                    });
+                firebaseAuth
+                    .signInWithCredential(_authCredential)
+                    .then((UserCredential credential) {
+                  User user = credential.user;
+
+                  if (user != null) {
+                    Navigator.of(context)
+                        .pushReplacementNamed('/Pages', arguments: 2);
+                  }
+
+                  ///go To Next Page
+                }).catchError((error) {
+                  Navigator.pop(context);
+                });
               },
               color: Theme.of(context).accentColor,
               text: Text(S.of(context).verify.toUpperCase(),
-                  style: Theme.of(context).textTheme.headline6.merge(TextStyle(color: Theme.of(context).primaryColor))),
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline6
+                      .merge(TextStyle(color: Theme.of(context).primaryColor))),
             ),
           ],
         ),

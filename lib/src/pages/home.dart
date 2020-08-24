@@ -1,21 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:markets/src/controllers/market_controller.dart';
-import 'package:markets/src/elements/GalleryCarouselWidget.dart';
-import 'package:markets/src/models/market.dart';
+import '../models/market.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 
 import '../../generated/l10n.dart';
 import '../controllers/home_controller.dart';
-import '../elements/CardsCarouselWidget.dart';
 import '../elements/CaregoriesCarouselWidget.dart';
-import '../elements/DeliveryAddressBottomSheetWidget.dart';
-import '../elements/GridWidget.dart';
 import '../elements/ProductsCarouselWidget.dart';
-import '../elements/ReviewsListWidget.dart';
 import '../elements/SearchBarWidget.dart';
 import '../elements/ShoppingCartButtonWidget.dart';
 import '../repository/settings_repository.dart' as settingsRepo;
-import '../repository/user_repository.dart';
 
 class HomeWidget extends StatefulWidget {
   final GlobalKey<ScaffoldState> parentScaffoldKey;

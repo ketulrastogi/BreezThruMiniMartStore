@@ -1,11 +1,29 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../generated/l10n.dart';
 import '../elements/BlockButtonWidget.dart';
 import '../helpers/app_config.dart' as config;
 
-class MobileVerification extends StatelessWidget {
+class MobileVerification extends StatefulWidget {
+  @override
+  _MobileVerificationState createState() => _MobileVerificationState();
+}
+
+class _MobileVerificationState extends State<MobileVerification> {
+  String phoneNumber;
+
+  TextEditingController phoneController;
+  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  String verificationId;
+  @override
+  void initState() {
+    phoneController = TextEditingController();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final _ac = config.App(context);
@@ -86,8 +104,52 @@ class MobileVerification extends StatelessWidget {
             ),
             SizedBox(height: 80),
             new BlockButtonWidget(
-              onPressed: () {
-                Navigator.of(context).pushNamed('/MobileVerification2');
+              onPressed: () async {
+                final PhoneCodeAutoRetrievalTimeout autoRetrieve =
+                    (String verId) {
+                  verificationId = verId;
+                };
+
+                final PhoneCodeSent smsCodeSent =
+                    (String verId, [int forceCodeResend]) {
+                  verificationId = verId;
+                  Navigator.of(context)
+                      .pushNamed('/MobileVerification2', arguments: verId);
+                };
+
+                final PhoneVerificationCompleted verifiedSuccess =
+                    (AuthCredential auth) {
+                  firebaseAuth
+                      .signInWithCredential(auth)
+                      .then((UserCredential credential) {
+                    if (credential.user != null) {
+                      User user = credential.user;
+                      print('can go to next page');
+                      Navigator.of(context)
+                          .pushReplacementNamed('/Pages', arguments: 2);
+                    } else {
+                      debugPrint('user not authorized');
+                      showToast('user not authorized');
+                    }
+                  }).catchError((error) {
+                    debugPrint('error : $error');
+                    showToast('${error.toString()}');
+                  });
+                };
+
+                final PhoneVerificationFailed veriFailed =
+                    (FirebaseAuthException exception) {
+                  print('${exception.message}');
+                  showToast('${exception.message}');
+                };
+
+                await FirebaseAuth.instance.verifyPhoneNumber(
+                    phoneNumber: phoneNumber,
+                    codeAutoRetrievalTimeout: autoRetrieve,
+                    codeSent: smsCodeSent,
+                    timeout: const Duration(seconds: 5),
+                    verificationCompleted: verifiedSuccess,
+                    verificationFailed: veriFailed);
               },
               color: Theme.of(context).accentColor,
               text: Text(S.of(context).submit.toUpperCase(),
@@ -100,5 +162,16 @@ class MobileVerification extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void showToast(String message) {
+    Fluttertoast.showToast(
+        msg: message,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.black87,
+        textColor: Colors.white,
+        fontSize: 16.0);
   }
 }
