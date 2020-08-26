@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "435939942866-phahph27c4g7tmng7a621lc1j97mjoee.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.breezthruminimart.store",
+            "certificate_hash": "33dda24071dac1d2d0d430c5f8043de41522f300"
+          }
+        },
+        {
           "client_id": "435939942866-0h7incd1127pdlr10pggjf5o8k2pblsc.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

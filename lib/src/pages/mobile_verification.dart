@@ -1,7 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:markets/src/models/country_code.dart';
+import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:markets/src/controllers/user_controller.dart';
 
 import '../../generated/l10n.dart';
 import '../elements/BlockButtonWidget.dart';
@@ -12,15 +15,23 @@ class MobileVerification extends StatefulWidget {
   _MobileVerificationState createState() => _MobileVerificationState();
 }
 
-class _MobileVerificationState extends State<MobileVerification> {
+class _MobileVerificationState extends StateMVC<MobileVerification> {
   String phoneNumber;
+  String selectedCountryCode;
 
   TextEditingController phoneController;
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   String verificationId;
+  UserController _con;
+
+  _MobileVerificationState() : super(UserController()) {
+    _con = controller;
+  }
+
   @override
   void initState() {
     phoneController = TextEditingController();
+    selectedCountryCode = countryCodes[0].number;
     super.initState();
   }
 
@@ -62,27 +73,44 @@ class _MobileVerificationState extends State<MobileVerification> {
                   ),
                 ),
                 child: DropdownButton(
-                  value: '+216',
+                  value: selectedCountryCode,
                   elevation: 9,
-                  onChanged: (value) {},
+                  onChanged: (value) {
+                    setState(() {
+                      selectedCountryCode = value;
+                    });
+                  },
                   items: [
-                    DropdownMenuItem(
-                      value: '+213',
-                      child: SizedBox(
-                        width: _ac.appWidth(70), // for example
-                        child: Text('(+213) - Algeria',
-                            textAlign: TextAlign.center),
-                      ),
-                    ),
-                    DropdownMenuItem(
-                      value: '+216',
-                      child: SizedBox(
-                        width: _ac.appWidth(70), // for example
-                        child: Text('(+216) - Tunisia',
-                            textAlign: TextAlign.center),
-                      ),
-                    ),
+                    ...countryCodes
+                        .map((countryCode) => DropdownMenuItem(
+                              value: countryCode.number,
+                              child: SizedBox(
+                                width: _ac.appWidth(70), // for example
+                                child: Text(
+                                    '(${countryCode.number}) - ${countryCode.name}',
+                                    textAlign: TextAlign.center),
+                              ),
+                            ))
+                        .toList()
                   ],
+                  // items: [
+                  // DropdownMenuItem(
+                  //   value: '+213',
+                  //   child: SizedBox(
+                  //     width: _ac.appWidth(70), // for example
+                  //     child: Text('(+213) - Algeria',
+                  //         textAlign: TextAlign.center),
+                  //   ),
+                  // ),
+                  //   DropdownMenuItem(
+                  //     value: '+216',
+                  //     child: SizedBox(
+                  //       width: _ac.appWidth(70), // for example
+                  //       child: Text('(+216) - Tunisia',
+                  //           textAlign: TextAlign.center),
+                  //     ),
+                  //   ),
+                  // ],
                 ),
               ),
             ),
@@ -100,8 +128,12 @@ class _MobileVerificationState extends State<MobileVerification> {
                     color: Theme.of(context).focusColor.withOpacity(0.5),
                   ),
                 ),
-                hintText: '+213 000 000 000',
+                hintText: 'Phone number',
               ),
+              maxLength: 10,
+              onSubmitted: (value) {
+                _con.user.phone = value;
+              },
             ),
             SizedBox(height: 80),
             new BlockButtonWidget(
@@ -114,8 +146,8 @@ class _MobileVerificationState extends State<MobileVerification> {
                 final PhoneCodeSent smsCodeSent =
                     (String verId, [int forceCodeResend]) {
                   verificationId = verId;
-                  Navigator.of(context)
-                      .pushNamed('/MobileVerification2', arguments: verId);
+                  // Navigator.of(context)
+                  //     .pushNamed('/MobileVerification2', arguments: verId);
                 };
 
                 final PhoneVerificationCompleted verifiedSuccess =
@@ -126,8 +158,9 @@ class _MobileVerificationState extends State<MobileVerification> {
                     if (credential.user != null) {
                       User user = credential.user;
                       print('can go to next page');
-                      Navigator.of(context)
-                          .pushReplacementNamed('/Pages', arguments: 2);
+                      _con.loginByPhoneNumber();
+                      // Navigator.of(context)
+                      //     .pushReplacementNamed('/Pages', arguments: 2);
                     } else {
                       debugPrint('user not authorized');
                       showToast('user not authorized');
@@ -143,9 +176,9 @@ class _MobileVerificationState extends State<MobileVerification> {
                   print('${exception.message}');
                   showToast('${exception.message}');
                 };
-
+                print('$selectedCountryCode${phoneController.text}');
                 await FirebaseAuth.instance.verifyPhoneNumber(
-                    phoneNumber: '+91${phoneController.text}',
+                    phoneNumber: '$selectedCountryCode${phoneController.text}',
                     codeAutoRetrievalTimeout: autoRetrieve,
                     codeSent: smsCodeSent,
                     timeout: const Duration(seconds: 5),
