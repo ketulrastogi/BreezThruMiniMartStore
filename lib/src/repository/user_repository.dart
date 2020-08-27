@@ -53,16 +53,16 @@ Future<User> getUserDetailsForPhoneAuth(User user) async {
   final String url =
       '${GlobalConfiguration().getString('api_base_url')}checkingphone/${user.phone}';
   final client = new http.Client();
-  final response = await client.post(
+  final response = await client.get(
     url,
-    headers: {HttpHeaders.contentTypeHeader: 'application/json'},
-    body: json.encode(user.toMap()),
   );
+  print('UserRepo: ${user.phone}');
   if (response.statusCode == 200) {
     setCurrentUser(response.body);
     currentUser.value = User.fromJSON(json.decode(response.body)['data']);
   } else {
     throw new Exception(response.body);
+    // currentUser = null;
   }
   return currentUser.value;
 }

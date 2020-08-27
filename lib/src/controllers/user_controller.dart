@@ -12,6 +12,8 @@ class UserController extends ControllerMVC {
   bool hidePassword = true;
   bool loading = false;
   GlobalKey<FormState> loginFormKey;
+  GlobalKey<FormState> phoneFormKey;
+  GlobalKey<FormState> otpFormKey;
   GlobalKey<ScaffoldState> scaffoldKey;
   FirebaseMessaging _firebaseMessaging;
   OverlayEntry loader;
@@ -19,6 +21,8 @@ class UserController extends ControllerMVC {
   UserController() {
     loader = Helper.overlayLoader(context);
     loginFormKey = new GlobalKey<FormState>();
+    phoneFormKey = new GlobalKey<FormState>();
+    otpFormKey = new GlobalKey<FormState>();
     this.scaffoldKey = new GlobalKey<ScaffoldState>();
     _firebaseMessaging = FirebaseMessaging();
     _firebaseMessaging.getToken().then((String _deviceToken) {
@@ -53,29 +57,64 @@ class UserController extends ControllerMVC {
     }
   }
 
+  Future<User> phoneChecker() async {
+    FocusScope.of(context).unfocus();
+    Overlay.of(context).insert(loader);
+    return await repository
+        .getUserDetailsForPhoneAuth(user)
+        .then((value) => value)
+        .catchError((e) => repository.currentUser);
+  }
+
   void loginByPhoneNumber() async {
     FocusScope.of(context).unfocus();
-    if (loginFormKey.currentState.validate()) {
-      loginFormKey.currentState.save();
-      Overlay.of(context).insert(loader);
-      repository.login(user).then((value) {
-        if (value != null && value.apiToken != null) {
-          Navigator.of(scaffoldKey.currentContext)
-              .pushReplacementNamed('/Pages', arguments: 2);
-        } else {
-          scaffoldKey?.currentState?.showSnackBar(SnackBar(
-            content: Text(S.of(context).wrong_email_or_password),
-          ));
-        }
-      }).catchError((e) {
-        loader.remove();
+    // if (phoneFormKey.currentState.validate()) {
+    // phoneFormKey.currentState.save();
+    Overlay.of(context).insert(loader);
+    repository.getUserDetailsForPhoneAuth(user).then((value) {
+      if (value != null && value.apiToken != null) {
+        Navigator.of(scaffoldKey.currentContext)
+            .pushReplacementNamed('/Pages', arguments: 2);
+      } else {
         scaffoldKey?.currentState?.showSnackBar(SnackBar(
-          content: Text(S.of(context).this_account_not_exist),
+          content: Text(S.of(context).wrong_email_or_password),
         ));
-      }).whenComplete(() {
-        Helper.hideLoader(loader);
-      });
-    }
+      }
+    }).catchError((e) {
+      loader.remove();
+      scaffoldKey?.currentState?.showSnackBar(SnackBar(
+        content: Text('${user.phone} number is not registerd.'),
+      ));
+    }).whenComplete(() {
+      Helper.hideLoader(loader);
+    });
+    // }
+  }
+
+  void loginByOtp() async {
+    FocusScope.of(context).unfocus();
+    // if (otpFormKey.currentState.validate()) {
+    // otpFormKey.currentState.save();
+    Overlay.of(context).insert(loader);
+    repository.getUserDetailsForPhoneAuth(user).then((value) {
+      if (value != null && value.apiToken != null) {
+        Navigator.of(scaffoldKey.currentContext)
+            .pushReplacementNamed('/Pages', arguments: 2);
+      } else {
+        scaffoldKey?.currentState?.showSnackBar(SnackBar(
+          content: Text(S.of(context).wrong_email_or_password),
+        ));
+      }
+    }).catchError((e) {
+      loader.remove();
+      scaffoldKey?.currentState?.showSnackBar(SnackBar(
+        content: Text('${user.phone} number is not registerd.'),
+      ));
+      Helper.hideLoader(loader);
+    }).whenComplete(() {
+      Helper.hideLoader(loader);
+    });
+    // }
   }
 
   void register() async {

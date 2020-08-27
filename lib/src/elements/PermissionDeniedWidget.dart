@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:markets/src/repository/settings_repository.dart';
 
 import '../../generated/l10n.dart';
 import '../helpers/app_config.dart' as config;
@@ -21,6 +22,7 @@ class _PermissionDeniedWidgetState extends State<PermissionDeniedWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      color: Theme.of(context).scaffoldBackgroundColor,
       alignment: AlignmentDirectional.center,
       padding: EdgeInsets.symmetric(horizontal: 30),
       height: config.App(context).appHeight(70),
@@ -75,7 +77,12 @@ class _PermissionDeniedWidgetState extends State<PermissionDeniedWidget> {
                     borderRadius: BorderRadius.circular(150),
                   ),
                 ),
-              )
+              ),
+              Container(
+                height: 150.0,
+                width: 150.0,
+                child: Image.asset('assets/img/logo.png'),
+              ),
             ],
           ),
           SizedBox(height: 15),
@@ -111,7 +118,7 @@ class _PermissionDeniedWidgetState extends State<PermissionDeniedWidget> {
               Navigator.of(context).pushNamed('/MobileVerification');
             },
             padding: EdgeInsets.symmetric(vertical: 12, horizontal: 70),
-            color: Theme.of(context).buttonColor.withOpacity(0.5),
+            color: Theme.of(context).highlightColor.withOpacity(1),
             shape: StadiumBorder(),
             child: Text(
               'Login with Phone number',
