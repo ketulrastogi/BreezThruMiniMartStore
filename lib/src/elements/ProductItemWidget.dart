@@ -9,7 +9,8 @@ class ProductItemWidget extends StatelessWidget {
   final String heroTag;
   final Product product;
 
-  const ProductItemWidget({Key key, this.product, this.heroTag}) : super(key: key);
+  const ProductItemWidget({Key key, this.product, this.heroTag})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,14 +19,18 @@ class ProductItemWidget extends StatelessWidget {
       focusColor: Theme.of(context).accentColor,
       highlightColor: Theme.of(context).primaryColor,
       onTap: () {
-        Navigator.of(context).pushNamed('/Product', arguments: RouteArgument(id: product.id, heroTag: this.heroTag));
+        Navigator.of(context).pushNamed('/Product',
+            arguments: RouteArgument(id: product.id, heroTag: this.heroTag));
       },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
         decoration: BoxDecoration(
           color: Theme.of(context).primaryColor.withOpacity(0.9),
           boxShadow: [
-            BoxShadow(color: Theme.of(context).focusColor.withOpacity(0.1), blurRadius: 5, offset: Offset(0, 2)),
+            BoxShadow(
+                color: Theme.of(context).focusColor.withOpacity(0.1),
+                blurRadius: 5,
+                offset: Offset(0, 2)),
           ],
         ),
         child: Row(
@@ -69,7 +74,10 @@ class ProductItemWidget extends StatelessWidget {
                           children: Helper.getStarsList(product.getRate()),
                         ),
                         Text(
-                          product.options.map((e) => e.name).toList().join(', '),
+                          product.options
+                              .map((e) => e.name)
+                              .toList()
+                              .join(', '),
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2,
                           style: Theme.of(context).textTheme.caption,
@@ -88,7 +96,11 @@ class ProductItemWidget extends StatelessWidget {
                       ),
                       product.discountPrice > 0
                           ? Helper.getPrice(product.discountPrice, context,
-                              style: Theme.of(context).textTheme.bodyText2.merge(TextStyle(decoration: TextDecoration.lineThrough)))
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText2
+                                  .merge(TextStyle(
+                                      decoration: TextDecoration.lineThrough)))
                           : SizedBox(height: 0),
                     ],
                   ),

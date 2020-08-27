@@ -148,8 +148,9 @@ class _MobileVerificationState extends StateMVC<MobileVerification> {
                     ),
                     hintText: 'Phone number',
                   ),
-                  maxLength: 10,
+                  // maxLength: 10,
                   onChanged: (value) {
+                    // _con.user.phone = '43432323234';
                     _con.user.phone = '$selectedCountryCode$value';
                   },
                 ),
@@ -216,6 +217,7 @@ class _MobileVerificationState extends StateMVC<MobileVerification> {
                     print('PhoneVerify:201 - ${_con.user.phone}');
                     await FirebaseAuth.instance.verifyPhoneNumber(
                         phoneNumber: _con.user.phone,
+                        // phoneNumber: '+919408393331',
                         codeAutoRetrievalTimeout: autoRetrieve,
                         codeSent: smsCodeSent,
                         timeout: const Duration(seconds: 5),

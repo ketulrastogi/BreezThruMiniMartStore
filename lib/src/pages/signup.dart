@@ -113,11 +113,11 @@ class _SignUpWidgetState extends StateMVC<SignUpWidget> {
                       TextFormField(
                         keyboardType: TextInputType.text,
                         onSaved: (input) => _con.user.phone = input,
-                        validator: (input) => input.length < 13
-                            ? S.of(context).not_a_valid_phone
-                            : input.length > 13
-                                ? S.of(context).not_a_valid_phone
-                                : null,
+                        // validator: (input) => input.length < 13
+                        //     ? S.of(context).not_a_valid_phone
+                        //     : input.length > 13
+                        //         ? S.of(context).not_a_valid_phone
+                        //         : null,
                         decoration: InputDecoration(
                           labelText: S.of(context).phone,
                           labelStyle:

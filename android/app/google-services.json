@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "435939942866",
-    "firebase_url": "https://breezthruminimart.firebaseio.com",
-    "project_id": "breezthruminimart",
-    "storage_bucket": "breezthruminimart.appspot.com"
+    "project_number": "662931291156",
+    "firebase_url": "https://breezthruminimart-606c9.firebaseio.com",
+    "project_id": "breezthruminimart-606c9",
+    "storage_bucket": "breezthruminimart-606c9.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:435939942866:android:5f28b8d113d077cee5680b",
+        "mobilesdk_app_id": "1:662931291156:android:b406c18cd6df0c6b303b01",
         "android_client_info": {
           "package_name": "com.breezthruminimart.store"
         }
       },
       "oauth_client": [
         {
-          "client_id": "435939942866-phahph27c4g7tmng7a621lc1j97mjoee.apps.googleusercontent.com",
+          "client_id": "662931291156-mk7qt4itmpp1s1af8vptqv4kdoems8j7.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.breezthruminimart.store",
@@ -23,28 +23,20 @@
           }
         },
         {
-          "client_id": "435939942866-0h7incd1127pdlr10pggjf5o8k2pblsc.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.breezthruminimart.store",
-            "certificate_hash": "0659a65a2ac47283c215c54e28c9f42c4f1be90c"
-          }
-        },
-        {
-          "client_id": "435939942866-9qfik8gidapes8s7t0olndumlgrfgs4k.apps.googleusercontent.com",
+          "client_id": "662931291156-9go5qip9gcfp8b894g5akveaop9v2oic.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCKPDdmXpssjrWjFOQp-QSVWoTyI_g0ktc"
+          "current_key": "AIzaSyDkD_3GlTtqHBlzVPnz__Ez7xiIe63amgo"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "435939942866-9qfik8gidapes8s7t0olndumlgrfgs4k.apps.googleusercontent.com",
+              "client_id": "662931291156-9go5qip9gcfp8b894g5akveaop9v2oic.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

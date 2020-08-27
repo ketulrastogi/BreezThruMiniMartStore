@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "435939942866",
+    "firebase_url": "https://breezthruminimart.firebaseio.com",
+    "project_id": "breezthruminimart",
+    "storage_bucket": "breezthruminimart.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:435939942866:android:5f28b8d113d077cee5680b",
+        "android_client_info": {
+          "package_name": "com.breezthruminimart.store"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "435939942866-phahph27c4g7tmng7a621lc1j97mjoee.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.breezthruminimart.store",
+            "certificate_hash": "33dda24071dac1d2d0d430c5f8043de41522f300"
+          }
+        },
+        {
+          "client_id": "435939942866-9qfik8gidapes8s7t0olndumlgrfgs4k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCKPDdmXpssjrWjFOQp-QSVWoTyI_g0ktc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "435939942866-9qfik8gidapes8s7t0olndumlgrfgs4k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
