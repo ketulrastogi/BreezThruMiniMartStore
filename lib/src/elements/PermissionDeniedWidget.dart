@@ -162,22 +162,22 @@ class _PermissionDeniedWidgetState extends StateMVC<PermissionDeniedWidget> {
             ),
           ),
           SizedBox(height: 20),
-          FlatButton(
-            onPressed: () {
-              // Navigator.of(context).pushNamed('/MobileVerification');
-              _con.signInWithFacebook();
-            },
-            padding: EdgeInsets.symmetric(vertical: 12, horizontal: 70),
-            color: Theme.of(context).primaryColorDark.withOpacity(1),
-            shape: StadiumBorder(),
-            child: Text(
-              'Login with Facebook',
-              // S.of(context).login,
-              style: Theme.of(context).textTheme.headline6.merge(
-                  TextStyle(color: Theme.of(context).scaffoldBackgroundColor)),
-            ),
-          ),
-          SizedBox(height: 20),
+          // FlatButton(
+          //   onPressed: () {
+          //     // Navigator.of(context).pushNamed('/MobileVerification');
+          //     _con.signInWithFacebook();
+          //   },
+          //   padding: EdgeInsets.symmetric(vertical: 12, horizontal: 70),
+          //   color: Theme.of(context).primaryColorDark.withOpacity(1),
+          //   shape: StadiumBorder(),
+          //   child: Text(
+          //     'Login with Facebook',
+          //     // S.of(context).login,
+          //     style: Theme.of(context).textTheme.headline6.merge(
+          //         TextStyle(color: Theme.of(context).scaffoldBackgroundColor)),
+          //   ),
+          // ),
+          // SizedBox(height: 20),
           FlatButton(
             onPressed: () {
               Navigator.of(context).pushReplacementNamed('/SignUp');
