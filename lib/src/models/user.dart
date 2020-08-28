@@ -11,6 +11,7 @@ class User {
   String address;
   String bio;
   Media image;
+  String social;
 
   // used for indicate if client logged in or not
   bool auth;
@@ -41,6 +42,11 @@ class User {
       } catch (e) {
         bio = "";
       }
+      try {
+        social = jsonMap['custom_fields']['social']['view'];
+      } catch (e) {
+        social = "";
+      }
       image = jsonMap['media'] != null && (jsonMap['media'] as List).length > 0
           ? Media.fromJSON(jsonMap['media'][0])
           : new Media();
@@ -62,6 +68,7 @@ class User {
     map["phone"] = phone;
     map["address"] = address;
     map["bio"] = bio;
+    map["social"] = social;
     map["media"] = image?.toMap();
     return map;
   }

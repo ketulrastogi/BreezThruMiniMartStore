@@ -42,8 +42,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => SignUpWidget());
       case '/MobileVerification':
         return MaterialPageRoute(builder: (_) => MobileVerification());
-      case '/MobileVerification2':
-        return MaterialPageRoute(builder: (_) => MobileVerification2());
+      // case '/MobileVerification2':
+      //   return MaterialPageRoute(builder: (_) => MobileVerification2());
       case '/Login':
         return MaterialPageRoute(builder: (_) => LoginWidget());
       case '/Profile':
