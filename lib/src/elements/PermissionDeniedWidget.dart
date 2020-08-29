@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:markets/src/controllers/user_controller.dart';
+import 'package:markets/src/helpers/helper.dart';
+import 'package:markets/src/models/user.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 
 import '../../generated/l10n.dart';
@@ -16,7 +18,7 @@ class PermissionDeniedWidget extends StatefulWidget {
 
 class _PermissionDeniedWidgetState extends StateMVC<PermissionDeniedWidget> {
   UserController _con;
-
+  BuildContext context;
   _PermissionDeniedWidgetState() : super(UserController()) {
     _con = controller;
   }
@@ -28,6 +30,9 @@ class _PermissionDeniedWidgetState extends StateMVC<PermissionDeniedWidget> {
 
   @override
   Widget build(BuildContext context) {
+    setState(() {
+      this.context = context;
+    });
     return Container(
       color: Theme.of(context).scaffoldBackgroundColor,
       alignment: AlignmentDirectional.center,
@@ -146,9 +151,28 @@ class _PermissionDeniedWidgetState extends StateMVC<PermissionDeniedWidget> {
           FlatButton(
             onPressed: () {
               // Navigator.of(context).pushNamed('/MobileVerification');
-              _con.signInWithGoogle().whenComplete(() {
+
+              _con.signInWithGoogle().whenComplete(() async {
                 print('Succesfuly logged in');
-                _con.register();
+                Overlay.of(context).insert(_con.loader);
+                User user = await _con.registerSocial().catchError((e) {
+                  _con.loader.remove();
+                  print(e.toString());
+                  _con.scaffoldKey?.currentState?.showSnackBar(SnackBar(
+                    content: Text('Email or phone already exists.'),
+                    // content: Text(S.of(context).this_email_account_exists),
+                  ));
+                }).whenComplete(() {
+                  Helper.hideLoader(_con.loader);
+                });
+                if (user != null && user.apiToken != null) {
+                  Navigator.of(context)
+                      .pushReplacementNamed('/Pages', arguments: 2);
+                } else {
+                  _con.scaffoldKey?.currentState?.showSnackBar(SnackBar(
+                    content: Text(S.of(context).wrong_email_or_password),
+                  ));
+                }
               });
             },
             padding: EdgeInsets.symmetric(vertical: 12, horizontal: 70),

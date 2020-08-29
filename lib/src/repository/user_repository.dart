@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/cupertino.dart';
 import 'package:global_configuration/global_configuration.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -85,6 +87,8 @@ Future<bool> resetPassword(User user) async {
 
 Future<void> logout() async {
   currentUser.value = new User();
+  await auth.FirebaseAuth.instance.signOut();
+  await GoogleSignIn().signOut();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   await prefs.remove('current_user');
 }

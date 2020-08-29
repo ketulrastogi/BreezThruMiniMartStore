@@ -156,6 +156,34 @@ class UserController extends ControllerMVC {
     }
   }
 
+  Future<User> registerSocial() async {
+    // FocusScope.of(context).unfocus();
+    // if (loginFormKey.currentState.validate()) {
+    // loginFormKey.currentState.save();
+    return repository.register(user);
+    Overlay.of(context).insert(loader);
+    // repository.register(user).then((value) {
+    //   if (value != null && value.apiToken != null) {
+    //     Navigator.of(scaffoldKey.currentContext)
+    //         .pushReplacementNamed('/Pages', arguments: 2);
+    //   } else {
+    //     scaffoldKey?.currentState?.showSnackBar(SnackBar(
+    //       content: Text(S.of(context).wrong_email_or_password),
+    //     ));
+    //   }
+    // }).catchError((e) {
+    //   loader.remove();
+    //   print(e.toString());
+    //   scaffoldKey?.currentState?.showSnackBar(SnackBar(
+    //     content: Text('Email or phone already exists.'),
+    //     // content: Text(S.of(context).this_email_account_exists),
+    //   ));
+    // }).whenComplete(() {
+    //   Helper.hideLoader(loader);
+    // });
+    // }
+  }
+
   void resetPassword() {
     FocusScope.of(context).unfocus();
     if (loginFormKey.currentState.validate()) {
@@ -257,5 +285,11 @@ class UserController extends ControllerMVC {
 
   signOutFacebook() async {
     await FacebookAuth.instance.logOut();
+  }
+
+  signOut() async {
+    await signOutGoogle();
+    // await signOutFacebook();
+    await repository.logout();
   }
 }
